@@ -12,6 +12,7 @@
  */
 
 import { ml_kem1024 } from '@noble/post-quantum/ml-kem';
+import { ml_dsa65 } from '@noble/post-quantum/ml-dsa';
 import { hkdf } from '@noble/hashes/hkdf';
 import { sha256 } from '@noble/hashes/sha256';
 
@@ -111,6 +112,90 @@ export async function getFingerprint(publicKey) {
     .map((b) => b.toString(16).padStart(2, '0'))
     .join(':')
     .toUpperCase();
+}
+
+// ─── ML-DSA-65 Signing (FIPS 204) ─────────────────────
+
+/**
+ * Generate an ML-DSA-65 signing keypair.
+ * Public key: 1952 bytes, Secret key: 4032 bytes.
+ */
+export function generateSigningKeypair() {
+  const { publicKey, secretKey } = ml_dsa65.keygen();
+  return { publicKey, secretKey };
+}
+
+/**
+ * Sign a message payload with ML-DSA-65.
+ * Signs the canonical string: kemCiphertext:iv:ciphertext
+ */
+export function signPayload(signingSecretKey, payload) {
+  const canonical = `${payload.kemCiphertext}:${payload.iv}:${payload.ciphertext}`;
+  const encoded = new TextEncoder().encode(canonical);
+  const signature = ml_dsa65.sign(signingSecretKey, encoded);
+  return uint8ToBase64(signature);
+}
+
+/**
+ * Verify a payload signature with ML-DSA-65.
+ */
+export function verifyPayloadSignature(signingPublicKey, payload, signatureB64) {
+  try {
+    const canonical = `${payload.kemCiphertext}:${payload.iv}:${payload.ciphertext}`;
+    const encoded = new TextEncoder().encode(canonical);
+    const signature = base64ToUint8(signatureB64);
+    return ml_dsa65.verify(signingPublicKey, encoded, signature);
+  } catch {
+    return false;
+  }
+}
+
+// ─── Safety Number ─────────────────────────────────────
+
+/**
+ * Generate a safety number for verifying two users' identities out-of-band.
+ * Both parties compute the same number from their combined keys.
+ * Format: 6 groups of 5 digits (e.g., "12345 67890 11223 44556 67890 12345")
+ *
+ * @param {string} user1 - First username
+ * @param {{kem: Uint8Array, dsa: Uint8Array}} keys1 - First user's public keys
+ * @param {string} user2 - Second username
+ * @param {{kem: Uint8Array, dsa: Uint8Array}} keys2 - Second user's public keys
+ */
+export async function generateSafetyNumber(user1, keys1, user2, keys2) {
+  const [first, second] = user1 < user2
+    ? [{ name: user1, ...keys1 }, { name: user2, ...keys2 }]
+    : [{ name: user2, ...keys2 }, { name: user1, ...keys1 }];
+
+  const parts = [
+    new TextEncoder().encode(first.name + '\x00'),
+    first.kem,
+    first.dsa,
+    new TextEncoder().encode(second.name + '\x00'),
+    second.kem,
+    second.dsa,
+  ];
+
+  let totalLen = 0;
+  for (const p of parts) totalLen += p.length;
+  const combined = new Uint8Array(totalLen);
+  let offset = 0;
+  for (const p of parts) {
+    combined.set(p, offset);
+    offset += p.length;
+  }
+
+  const hash1 = await crypto.subtle.digest('SHA-256', combined);
+  const hash2 = await crypto.subtle.digest('SHA-256', hash1);
+  const bytes = new Uint8Array(hash2);
+
+  let number = '';
+  for (let i = 0; i < 30; i += 5) {
+    const val = ((bytes[i] << 24) | (bytes[i + 1] << 16) | (bytes[i + 2] << 8) | bytes[i + 3]) >>> 0;
+    number += String(val % 100000).padStart(5, '0');
+    if (i + 5 < 30) number += ' ';
+  }
+  return number;
 }
 
 // ─── Base64 Utilities ──────────────────────────────────────

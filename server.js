@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
   console.log(`[+] Socket connected: ${socket.id}`);
 
   socket.on('register', (data) => {
-    const { username, publicKey } = data;
+    const { username, publicKey, signingKey } = data;
     if (!username || !publicKey) {
       socket.emit('error', { msg: 'username and publicKey required' });
       return;
@@ -37,13 +37,13 @@ io.on('connection', (socket) => {
       return;
     }
 
-    users.set(username, { sid: socket.id, publicKey });
+    users.set(username, { sid: socket.id, publicKey, signingKey });
     broadcastUserList();
-    console.log(`[+] Registered: ${username}  (ML-KEM-1024 public key: ${publicKey.slice(0, 24)}...)`);
+    console.log(`[+] Registered: ${username}  (ML-KEM-1024 + ML-DSA-65)`);
   });
 
   socket.on('send_message', (data) => {
-    const { to, from, payload } = data;
+    const { to, from, payload, signature } = data;
     if (!to || !payload) {
       socket.emit('error', { msg: 'to and payload required' });
       return;
@@ -53,9 +53,13 @@ io.on('connection', (socket) => {
       socket.emit('error', { msg: 'Alıcı bulunamadı' });
       return;
     }
-    // Server only relays — it cannot decrypt (no private keys, post-quantum ciphertext)
-    io.to(recipient.sid).emit('private_message', { from, payload });
-    console.log(`[>] Relayed PQC-encrypted message: ${from} → ${to}`);
+    // Server only relays — it cannot decrypt or forge (PQC encryption + ML-DSA signatures)
+    io.to(recipient.sid).emit('private_message', { from, payload, signature });
+    console.log(`[>] Relayed PQC-encrypted+signed message: ${from} → ${to}`);
+  });
+
+  socket.on('request_user_list', () => {
+    broadcastUserList();
   });
 
   socket.on('disconnect', () => {
@@ -73,7 +77,7 @@ io.on('connection', (socket) => {
 function broadcastUserList() {
   const list = [];
   for (const [username, info] of users.entries()) {
-    list.push({ username, publicKey: info.publicKey });
+    list.push({ username, publicKey: info.publicKey, signingKey: info.signingKey });
   }
   io.emit('user_list', list);
 }

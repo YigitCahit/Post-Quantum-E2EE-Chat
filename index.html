@@ -15,9 +15,10 @@
       </div>
       <p class="subtitle">
         <span class="algo-badge">ML-KEM-1024</span>
+        <span class="algo-badge">ML-DSA-65</span>
         <span class="algo-badge">AES-256-GCM</span>
         <span class="algo-badge">HKDF-SHA256</span>
-        <span class="sep">—</span> NIST FIPS 203 Post-Quantum Standardı
+        <span class="sep">—</span> NIST FIPS 203/204 Post-Quantum Standardı
       </p>
       <div id="fingerprint" class="fingerprint"></div>
     </header>
@@ -64,9 +65,40 @@
         <span class="footer-badge">🔐 Hibrit Şifreleme</span>
         <span class="footer-badge">🧬 Kuantum Dayanıklı</span>
         <span class="footer-badge">🚫 Sıfır Bilgi Sunucu</span>
+        <span class="footer-badge">✍️ ML-DSA İmza</span>
+        <span class="footer-badge">📌 Anahtar Sabitleme</span>
       </div>
-      <p>Sunucu yalnızca şifreli verileri iletir. Özel anahtarlar tarayıcınızdan asla çıkmaz.</p>
+      <p>Sunucu yalnızca şifreli verileri iletir. Özel anahtarlar tarayıcınızdan asla çıkmaz. ML-DSA-65 dijital imzalar ve TOFU anahtar sabitleme ile MITM koruması sağlanır.</p>
     </footer>
+  </div>
+
+  <!-- Safety Number Verification Modal -->
+  <div id="safetyModal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>🔐 Güvenlik Numarası Doğrulama</h3>
+        <button id="closeSafetyModal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          <strong id="safetyUser"></strong> ile aranızdaki güvenlik numarasını bant dışı
+          (yüz yüze, telefon vb.) karşılaştırın. Her iki taraf da aynı numarayı görmelidir.
+        </p>
+        <div id="safetyNumber" class="safety-number"></div>
+        <p class="safety-hint">
+          ⚠️ Numaralar eşleşmiyorsa sunucu anahtarları değiştirmiş olabilir (MITM saldırısı).
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button id="btnVerifyKey" class="btn-verify">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          Doğrulandı — Anahtarı Onayla
+        </button>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="/src/main.js"></script>
