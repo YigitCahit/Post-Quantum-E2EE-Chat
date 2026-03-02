@@ -1,0 +1,548 @@
+/* ═══════════════════════════════════════════════════════
+   PQC E2EE Chat — Styles
+   Post-Quantum Encrypted Chat UI
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  --bg: #0b0e14;
+  --bg-card: #12161f;
+  --bg-input: #1a1f2e;
+  --bg-sidebar: #0f1219;
+  --border: #1e2535;
+  --border-focus: #3b82f6;
+  --text: #e2e8f0;
+  --text-dim: #8892a4;
+  --text-muted: #4a5568;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --sent-bg: rgba(59, 130, 246, 0.08);
+  --message-bg: rgba(16, 185, 129, 0.08);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ─── Container ─────────────────────────────────────── */
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
+}
+
+/* ─── Header ────────────────────────────────────────── */
+
+header {
+  margin-bottom: 1rem;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shield {
+  font-size: 1.4rem;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.algo-badge {
+  display: inline-block;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.sep {
+  color: var(--text-muted);
+}
+
+/* ─── Status ────────────────────────────────────────── */
+
+.status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.status-waiting {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.status-info {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.status-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.status-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.status-error {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* ─── Fingerprint ───────────────────────────────────── */
+
+.fingerprint {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fingerprint code {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  background: var(--bg-input);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--success);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.fingerprint svg {
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+/* ─── Register Bar ──────────────────────────────────── */
+
+.register-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.register-bar.registered {
+  margin-bottom: 0.5rem;
+}
+
+.register-bar input {
+  flex: 1;
+  max-width: 280px;
+}
+
+/* ─── Chat Layout ───────────────────────────────────── */
+
+.chat-layout {
+  display: flex;
+  gap: 0.75rem;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ─── Sidebar ───────────────────────────────────────── */
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sidebar h3 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sidebar h3 svg {
+  opacity: 0.6;
+}
+
+#users {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.user {
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.user:last-child {
+  border-bottom: none;
+}
+
+.user:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.user.selected {
+  background: rgba(59, 130, 246, 0.12);
+  border-left: 3px solid var(--accent);
+}
+
+.user-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.user-fp {
+  font-size: 0.68rem;
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.no-users {
+  padding: 1.5rem 0.75rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* ─── Chat Main ─────────────────────────────────────── */
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.log {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.log-welcome {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.log-welcome p {
+  margin-bottom: 0.5rem;
+}
+
+.log-welcome p:last-child {
+  margin-bottom: 0;
+}
+
+.log-welcome strong {
+  color: var(--accent);
+}
+
+/* ─── Log Entries ───────────────────────────────────── */
+
+.log-entry {
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.25rem;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.log-time {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  margin-right: 0.4rem;
+}
+
+.log-info {
+  color: var(--text-dim);
+}
+
+.log-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border-left: 3px solid var(--success);
+}
+
+.log-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border-left: 3px solid var(--warning);
+}
+
+.log-error {
+  background: var(--error-bg);
+  color: var(--error);
+  border-left: 3px solid var(--error);
+}
+
+.log-sent {
+  background: var(--sent-bg);
+  border-left: 3px solid var(--accent);
+}
+
+.log-message {
+  background: var(--message-bg);
+  border-left: 3px solid var(--success);
+}
+
+.msg-from {
+  font-weight: 700;
+  color: var(--success);
+}
+
+.msg-from::after {
+  content: ':';
+  margin-right: 0.4rem;
+}
+
+.msg-to {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.msg-to::after {
+  content: ':';
+  margin-right: 0.4rem;
+}
+
+/* ─── Input Bar ─────────────────────────────────────── */
+
+.input-bar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ─── Inputs & Buttons ──────────────────────────────── */
+
+input[type="text"] {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+  color: var(--text);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+input[type="text"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type="text"]::placeholder {
+  color: var(--text-muted);
+}
+
+.input-bar input {
+  flex: 1;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button svg {
+  flex-shrink: 0;
+}
+
+/* ─── Footer ────────────────────────────────────────── */
+
+footer {
+  margin-top: 0.75rem;
+  text-align: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer-badges {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-badge {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-dim);
+}
+
+footer p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+footer strong {
+  color: var(--text-dim);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ─── Responsive ────────────────────────────────────── */
+
+@media (max-width: 700px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+
+  .chat-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-height: 140px;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .register-bar {
+    flex-direction: column;
+  }
+
+  .register-bar input {
+    max-width: 100%;
+  }
+}

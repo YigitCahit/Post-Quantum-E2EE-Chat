@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PQC E2EE Chat — Kuantum Sonrası Şifreli Sohbet</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <h1><span class="shield">🛡️</span> Kuantum Sonrası Şifreli Sohbet</h1>
+        <div id="status" class="status status-waiting">Bağlantı bekleniyor…</div>
+      </div>
+      <p class="subtitle">
+        <span class="algo-badge">ML-KEM-1024</span>
+        <span class="algo-badge">AES-256-GCM</span>
+        <span class="algo-badge">HKDF-SHA256</span>
+        <span class="sep">—</span> NIST FIPS 203 Post-Quantum Standardı
+      </p>
+      <div id="fingerprint" class="fingerprint"></div>
+    </header>
+
+    <div class="register-bar" id="registerBar">
+      <input id="username" type="text" placeholder="Kullanıcı adınız" autocomplete="off" spellcheck="false">
+      <button id="btnRegister">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Kayıt Ol &amp; Anahtar Üret
+      </button>
+    </div>
+
+    <div class="chat-layout">
+      <aside class="sidebar">
+        <h3>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Kullanıcılar
+        </h3>
+        <div id="users">
+          <div class="no-users">Henüz kayıtlı kullanıcı yok</div>
+        </div>
+      </aside>
+
+      <main class="chat-main">
+        <div id="log" class="log">
+          <div class="log-welcome">
+            <p><strong>Kuantum-Güvenli Uçtan Uca Şifreli Sohbet</strong></p>
+            <p>Bu uygulama <strong>ML-KEM-1024 (Kyber)</strong> kuantum sonrası anahtar kapsülleme mekanizması ile <strong>AES-256-GCM</strong> simetrik şifreleme kullanır.</p>
+            <p>Sunucu yalnızca şifreli verileri iletir — özel anahtarlarınız ve mesajlarınızın düz metni sunucuya asla ulaşmaz.</p>
+          </div>
+        </div>
+        <div class="input-bar">
+          <input id="message" type="text" placeholder="Mesajınızı yazın…" disabled autocomplete="off" spellcheck="false">
+          <button id="btnSend" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Gönder
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-badges">
+        <span class="footer-badge">🔐 Hibrit Şifreleme</span>
+        <span class="footer-badge">🧬 Kuantum Dayanıklı</span>
+        <span class="footer-badge">🚫 Sıfır Bilgi Sunucu</span>
+      </div>
+      <p>Sunucu yalnızca şifreli verileri iletir. Özel anahtarlar tarayıcınızdan asla çıkmaz.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
