@@ -121,4 +121,4 @@ Geleneksel RSA ve ECC tabanlı şifreleme, gelecekteki kuantum bilgisayarlar tar
 
 ## Lisans
 
-MIT License
+AGPL-3.0 license
